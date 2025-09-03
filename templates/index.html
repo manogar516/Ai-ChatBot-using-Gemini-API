@@ -1,20 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gemini AI Chatbot</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gemini Chat — Enhanced UI</title>
+
+  <!-- Tailwind CDN for utilities (no build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Animate / timeline library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-7lDk0YQz5k3q6Nrl6zqPDxg0lC1xkXpH3Nf5LZz3b8kRz0x2uZ7o7b0o0s7n0p0+2bRk2v+B0xZtqI0sRbsz0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- Custom styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- meta for social share -->
+  <meta name="description" content="Upgraded Gemini chat UI — animated, responsive, and modern.">
 </head>
-<body>
-  <div class="chat-container">
-    <h2>Gemini AI Chatbot</h2>
-    <div id="chat-box"></div>
-    <div class="input-row">
-      <input type="text" id="user-input" placeholder="Type your message..." />
-      <button id="send-btn" onclick="sendMessage()">Send</button>
+<body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen antialiased">
+
+  <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-4xl grid grid-cols-12 gap-6">
+
+      <!-- Left: info / controls -->
+      <aside class="col-span-12 lg:col-span-4">
+        <div class="glass p-6 h-full flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="logo w-12 h-12 rounded-xl flex items-center justify-center shadow-md bg-gradient-to-br from-indigo-500 to-pink-500 text-white text-xl font-bold">G</div>
+              <div>
+                <h1 class="text-lg font-semibold">Gemini Chat</h1>
+                <p class="text-sm text-slate-600">Simple AI chatbot using Gemini API</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="theme-toggle" title="Toggle dark/light" class="btn-ghost p-2 rounded-md">
+                
+                  <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                  
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <h2 class="text-sm font-medium text-slate-600"></h2>
+            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+              <li><a href="https://github.com/manogar516">Follow me on Github</li>
+              
+            </ul>
+          </div>
+
+          <div class="flex gap-2">
+            <button id="clear-btn" class="btn-primary flex-1">Clear conversation</button>
+            <a id="download-log" class="btn-ghost px-4" href="#" title="Download session log">Export</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right: chat -->
+      <main class="col-span-12 lg:col-span-8">
+        <div class="glass p-4 flex flex-col h-[80vh]">
+          <div class="flex items-center justify-between mb-3 px-3">
+            <h3 class="text-md font-semibold">Conversation</h3>
+            <div class="text-sm text-slate-500">version-1.2</div>
+          </div>
+
+          <!-- Chat area -->
+          <div id="chat-window" class="flex-1 overflow-auto px-4 py-3 space-y-4" tabindex="0" aria-live="polite">
+            <!-- messages will be appended here -->
+            <div class="system-msg text-sm text-slate-500">Welcome! Ask anything </div>
+          </div>
+
+          <!-- form - keep same field names where possible -->
+          <form id="chat-form" action="/chat" method="post" class="mt-4 flex items-end gap-3 px-3">
+            <div class="relative flex-1">
+              <textarea id="message-input" name="message" rows="1" placeholder="Type a message..." class="input resize-none pr-12"></textarea>
+
+              <div class="absolute right-2 bottom-2 flex items-center gap-2">
+                <button type="button" id="attach-btn" class="btn-ghost p-2 rounded-md" title="Attach (not implemented)">
+                  
+                </button>
+                <button type="submit" id="send-btn" class="btn-primary px-4 py-2 flex items-center gap-2">
+                  
+                  <span>Send</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="button" id="voice-btn" class="btn-ghost p-2 rounded-md" title="Voice (optional)">
+             
+            </button>
+          </form>
+        </div>
+      </main>
     </div>
   </div>
+
+  <!-- small footer -->
+  <div class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 text-xs text-slate-500">
+    Made with ❤️ — By Manogar
+  </div>
+
+  <!-- Client script -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
